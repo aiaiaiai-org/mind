@@ -4,6 +4,27 @@
 
 This repository is an integration fork of the vendor-independent [`mind`](https://github.com/0x0sky/mind) baseline. It specializes the baseline contract as the organization mind for `aiaiaiaitech` while keeping reusable framework concerns upstream.
 
+## Organization identity
+
+- **Organization:** `aiaiaiai tech.` / `4xAI tech.`
+- **Owner:** [0x0sky](https://github.com/0x0sky)
+- **Role:** parent organization for non-personal work
+- **Current form:** GitHub organization
+- **Intended legal form:** Ukrainian limited liability company (ТОВ)
+- **Child organizations / namespaces:** [0xda-market](https://github.com/0xda-market), [nilx.one](https://github.com/nilx-one)
+
+The parent-child model is canonical ecosystem context, not a GitHub-native hierarchy. GitHub represents the organizations as technically independent peer namespaces.
+
+```text
+0x0sky
+└── aiaiaiai tech. / 4xAI tech.
+    ├── 0xda-market
+    └── nilx.one
+        └── 0x1
+```
+
+Personal projects owned by `0x0sky` remain outside this corporate hierarchy unless explicitly declared otherwise.
+
 ## Purpose
 
 The repository is the canonical source for stable organization-wide context that should be shared across projects without being duplicated in every repository.
@@ -39,7 +60,8 @@ Optional module:
 ## Integration model
 
 - `0x0sky/mind` remains the neutral upstream contract.
-- `aiaiaiaitech/mind` evolves independently as a concrete organization mind.
+- `aiaiaiaitech/mind` evolves independently as the concrete parent-organization mind.
+- Child organization minds reference this organization as their parent while remaining independently versioned repositories.
 - Neutral improvements may be contributed upstream as isolated commits or versioned contract changes.
 - Organization-specific content must not be pushed upstream.
 - Repository-specific implementation remains canonical in the owning repository and is referenced from here.
