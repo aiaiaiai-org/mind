@@ -7,23 +7,30 @@ This repository is an integration fork of the vendor-independent [`mind`](https:
 ## Organization identity
 
 - **Organization:** `aiaiaiai tech.` / `4xAI tech.`
-- **Owner:** [0x0sky](https://github.com/0x0sky)
-- **Role:** parent organization for non-personal work
-- **Current form:** GitHub organization
-- **Intended legal form:** Ukrainian limited liability company (ТОВ)
+- **Owner / root identity:** [0x0sky](https://github.com/0x0sky)
+- **Role:** parent organization and organizational hub for non-personal work
+- **Current form:** GitHub organization and operating identity
+- **Long-term direction:** legal corporate parent
 - **Child organizations / namespaces:** [0xda-market](https://github.com/0xda-market), [nilx.one](https://github.com/nilx-one)
 
-The parent-child model is canonical ecosystem context, not a GitHub-native hierarchy. GitHub represents the organizations as technically independent peer namespaces.
+The canonical topology is defined in [`ORGANIZATION.md`](ORGANIZATION.md). It treats the ecosystem as a graph: `0x0sky` is the ownership root, `aiaiaiai tech.` is the organizational center, and each child organization has direct relationships to both.
 
 ```text
-0x0sky
-└── aiaiaiai tech. / 4xAI tech.
-    ├── 0xda-market
-    └── nilx.one
-        └── 0x1
+             0x0sky
+            /  |  \
+           v   v   v
+      aiaiaiai tech.
+        /         \
+       v           v
+0xda-market     nilx.one
+                   |
+                   v
+                  0x1
 ```
 
-Personal projects owned by `0x0sky` remain outside this corporate hierarchy unless explicitly declared otherwise.
+GitHub represents these organizations as technically independent peer namespaces. That implementation detail does not define their ownership or organizational relationships.
+
+Personal projects owned by `0x0sky` remain outside the corporate graph unless explicitly declared otherwise.
 
 ## Purpose
 
@@ -35,6 +42,7 @@ It intentionally excludes secrets, private personal context, repository-local im
 
 ```text
 OrganizationMind
+├── ORGANIZATION.md
 ├── manifest.yaml
 ├── schema/
 │   └── mind.schema.json
@@ -61,6 +69,7 @@ Optional module:
 
 - `0x0sky/mind` remains the neutral upstream contract.
 - `aiaiaiaitech/mind` evolves independently as the concrete parent-organization mind.
+- `ORGANIZATION.md` is the canonical human-readable source for ecosystem ownership and topology.
 - Child organization minds reference this organization as their parent while remaining independently versioned repositories.
 - Neutral improvements may be contributed upstream as isolated commits or versioned contract changes.
 - Organization-specific content must not be pushed upstream.
