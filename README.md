@@ -18,7 +18,7 @@ The canonical topology is defined in [`ORGANIZATION.md`](ORGANIZATION.md). GitHu
 
 ## Protocol contract
 
-`manifest.yaml` is the machine-readable entry point. The current instance implements Mind Protocol `0.4.0-rc.1` with manifest schema v2.
+`manifest.yaml` is the machine-readable entry point. The current instance implements stable Mind Protocol `0.4.0` with manifest schema v2.
 
 The manifest separates:
 
@@ -28,6 +28,8 @@ The manifest separates:
 - `protocol.version` — the shared Mind Protocol version.
 
 Both subject and publication owner are currently `organization:aiaiaiai-tech`.
+
+The rc-to-stable protocol promotion does not change this organization's durable subject context, so `mind.context_version` remains `0.2.0`.
 
 ## Composition
 
