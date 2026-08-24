@@ -10,20 +10,20 @@ relationships:
       id: 0x0sky
     target:
       type: organization
-      id: aiaiaiai-tech
+      id: aiaiaiai
     direction: directed
     provenance:
       kind: authored
       authority:
         type: organization
-        id: aiaiaiai-tech
+        id: aiaiaiai
     confirmation:
       state: reciprocal
       counterpart:
         entity:
           type: person
           id: 0x0sky
-        relationship_id: member-of-aiaiaiai-tech
+        relationship_id: member-of-aiaiaiai
 
 validation:
   schema: schema/relationships.schema.json
