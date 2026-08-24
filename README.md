@@ -21,9 +21,9 @@ The canonical organization id is provider-independent. `aiaiaiai-org` is the cur
 
 `manifest.yaml` is the machine-readable entry point. This instance is a compatibility canary for the immutable Mind Protocol `v0.9.0` release, using manifest schema v3 and organization context `0.3.0`.
 
-`protocol.lock.yaml` pins the exact release tag, protocol descriptor, schema `$id` values, and Git blob fingerprints consumed by this repository. CI rejects drift from those published contract bytes. The protocol version and this organization's context version are independent.
+`protocol.lock.yaml` pins the exact release tag and commit, protocol descriptor, complete frozen schema set, conformance contract, compatibility policy, schema `$id` values, and Git blob fingerprints consumed by this repository. CI rejects drift from those published contract bytes. The protocol version and this organization's context version are independent.
 
-The `0.3.0` context line records the v3 representation change, Identity resource envelope adoption, and cleanup of stale `aiaiaiai-tech` module-owner identifiers. The canonical subject itself was already `aiaiaiai` before this bridge.
+The `0.3.0` context line records the v3 representation change, Identity resource envelope adoption, and cleanup of legacy module-owner identifiers. The canonical subject itself was already `aiaiaiai` before this bridge.
 
 ## Composition
 
@@ -32,13 +32,19 @@ OrganizationMind
 ├── manifest.yaml
 ├── protocol.yaml
 ├── protocol.lock.yaml
+├── conformance.yaml
+├── compatibility.yaml
 ├── ORGANIZATION.md
 ├── schema/
+│   ├── protocol.schema.json
 │   ├── mind.schema.json
 │   ├── module.schema.json
 │   ├── identity.schema.json
 │   ├── identity-resource.schema.json
-│   └── relationships.schema.json
+│   ├── relationships.schema.json
+│   ├── visual-assets.schema.json
+│   ├── conformance.schema.json
+│   └── compatibility.schema.json
 └── modules/
     ├── identity/
     ├── relationships/
