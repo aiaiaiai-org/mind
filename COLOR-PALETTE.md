@@ -1,6 +1,6 @@
 # Ecosystem identity palette
 
-> Canonical visual identity colors for the aiaiaiai tech. ecosystem graph.
+> Canonical visual identity colors for the aiaiaiai ecosystem graph.
 
 This palette is derived from the cosmic / neural-network visualization of the ecosystem. The colors identify **entities**, not product states, severity levels, or UI actions. They should remain recognizable across diagrams, graph rendering, documentation, and future visual systems.
 
@@ -10,7 +10,7 @@ This palette is derived from the cosmic / neural-network visualization of the ec
 | --- | --- | --- | --- | --- |
 | `Core ☦️` | soul / spiritual core | `#D9B66F` | `#765A2D` | `#F4D99B` |
 | `0x0sky` | human / personal identity | `#5597DA` | `#123878` | `#8BC5FF` |
-| `aiaiaiai tech.` | organizational / corporate identity | `#906FC8` | `#3A2B72` | `#C2A1F2` |
+| `aiaiaiai` | organizational / corporate identity | `#906FC8` | `#3A2B72` | `#C2A1F2` |
 | `0xda-market` | child organization / market ecosystem | `#93C482` | `#41704E` | `#BCE8A9` |
 | `nilx.one` | child organization / protocol ecosystem | `#7765C6` | `#392F78` | `#B4A6F2` |
 
@@ -19,11 +19,11 @@ The **Primary** value is the canonical identity color. **Deep** is intended for 
 ## Relationship to the topology
 
 ```text
-Core ☦️             warm gold
+Core ☦️          warm gold
 │
-├─ 0x0sky           electric blue
+├─ 0x0sky        electric blue
 │
-└─ aiaiaiai tech.   cosmic violet
+└─ aiaiaiai      cosmic violet
    │
    ├─ 0xda-market   living green
    │  ├─ core
