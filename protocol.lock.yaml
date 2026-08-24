@@ -9,13 +9,23 @@ protocol:
 source:
   repository: 0x0sky/mind
   tag: v0.9.0
+  commit: 457844c8ced0318d91d628617ff6f8ec6f428ab7
   floating_branch: forbidden
 
 protocol_descriptor:
   path: protocol.yaml
   git_blob_sha1: d4294338ce8d19ff732e3de280c9292c3df5f199
 
+release_machine_artifacts:
+  conformance.yaml:
+    git_blob_sha1: 53ba4996a694e80da3e58092511cc02d7d77f172
+  compatibility.yaml:
+    git_blob_sha1: 10381cea7a7ad7557bf1a84654f9acdf1ebb9d00
+
 vendored_contracts:
+  schema/protocol.schema.json:
+    schema_id: https://aiaiaiai.org/mind/schema/protocol/v3
+    git_blob_sha1: 23bc8ffde889c7c20ca446e6fca8e914920f4fd2
   schema/mind.schema.json:
     schema_id: https://aiaiaiai.org/mind/schema/manifest/v3
     git_blob_sha1: cc89e3364c404a86fdce72a061195768ee460597
@@ -31,6 +41,15 @@ vendored_contracts:
   schema/relationships.schema.json:
     schema_id: https://aiaiaiai.org/mind/schema/relationships/v1
     git_blob_sha1: 6cae6a6de82a2a225d55969a44fc7773304e94a5
+  schema/visual-assets.schema.json:
+    schema_id: https://aiaiaiai.org/mind/schema/visual-assets/v1
+    git_blob_sha1: dd65ec62ce70a6fe22ee005339ae9c374451a320
+  schema/conformance.schema.json:
+    schema_id: https://aiaiaiai.org/mind/schema/conformance/v2
+    git_blob_sha1: a94e3a96a5f475a2757da4b4a8533f6b8b150540
+  schema/compatibility.schema.json:
+    schema_id: https://aiaiaiai.org/mind/schema/compatibility/v1
+    git_blob_sha1: 2fe9f477ff6284e585e9a1ac1e8d0e6434cc964a
 
 context_versioning:
   independent_from_protocol: true
