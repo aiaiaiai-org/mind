@@ -1,0 +1,86 @@
+# © 2026 aiaiaiai · aiaiaiai.org
+# SPDX-License-Identifier: MIT
+schema_version: 3
+
+protocol:
+  id: mind
+  version: 0.9.0
+  neutrality:
+    subject: implementation_independent
+    publication_owner: implementation_independent
+    provider: implementation_independent
+    repository_layout: implementation_independent
+    runtime: implementation_independent
+
+contracts:
+  manifest:
+    schema: schema/mind.schema.json
+    role: concrete_instance_composition
+  module:
+    schema: schema/module.schema.json
+    role: concrete_instance_module_descriptor
+  identity:
+    schema: schema/identity.schema.json
+    role: canonical_identity_value
+  identity_resource:
+    schema: schema/identity-resource.schema.json
+    role: concrete_mind_resource_envelope
+  relationships:
+    schema: schema/relationships.schema.json
+    role: authored_relationship_resource
+  visual_assets:
+    schema: schema/visual-assets.schema.json
+    role: canonical_visual_asset_resolution_resource
+  conformance:
+    schema: schema/conformance.schema.json
+    role: machine_runnable_conformance_suite
+  compatibility:
+    schema: schema/compatibility.schema.json
+    role: compatibility_freeze_and_migration_policy
+
+visual_identity:
+  asset_ref_resolution:
+    resource_schema: schema/visual-assets.schema.json
+    discovery: registered_typed_resources
+    selection: unique_matching_ref
+  integrity:
+    descriptor: versioned_descriptor
+    algorithm: sha256
+    required: true
+  media_types:
+    normative:
+      - image/svg+xml
+      - image/png
+    optional:
+      - image/webp
+  fallback:
+    unavailable_mark: presentation_fallback_allowed_noncanonical
+    missing_asset: observable_failure_presentation_fallback_allowed_noncanonical
+    unsupported_media: observable_failure_presentation_fallback_allowed_noncanonical
+    integrity_failure: hard_failure_presentation_fallback_allowed_noncanonical
+    derived_visuals: must_not_silently_replace_canonical
+  avatar:
+    status: presentation_only
+
+conformance:
+  suite: conformance.yaml
+  baseline:
+    strategy: generated_contract_bundle
+    source: protocol_contract_set
+    persistent_generic_ontology: forbidden
+  compatibility:
+    capability_unit: module
+    range_semantics: minimum_inclusive_maximum_exclusive
+    unknown_optional_modules: ignore_when_not_requested
+    unknown_required_modules: reject
+    unknown_root_manifest_fields: reject
+
+compatibility:
+  policy: compatibility.yaml
+  status: frozen_pre_1_0
+
+instance_policy:
+  canonical_instance_branch: master
+  instance_name: mind@{subject.id}
+  protocol_contracts_are_instance_neutral: required
+  instance_context_is_versioned_independently: required

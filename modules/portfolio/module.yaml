@@ -12,5 +12,5 @@ module:
     - modules/portfolio/README.md
   owner:
     type: organization
-    id: aiaiaiai-tech
+    id: aiaiaiai
   visibility: public

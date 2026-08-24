@@ -11,7 +11,7 @@ module:
     - modules/relationships/README.md
   owner:
     type: organization
-    id: aiaiaiai-tech
+    id: aiaiaiai
   visibility: public
   resources:
     relationships:

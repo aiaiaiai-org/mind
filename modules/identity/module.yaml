@@ -10,10 +10,10 @@ module:
     - modules/identity/README.md
   owner:
     type: organization
-    id: aiaiaiai-tech
+    id: aiaiaiai
   visibility: public
   resources:
     identity:
       path: modules/identity/identity.yaml
       format: yaml
-      schema: schema/identity.schema.json
+      schema: schema/identity-resource.schema.json
