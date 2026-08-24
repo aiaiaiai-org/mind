@@ -1,12 +1,12 @@
-# aiaiaiai tech. — organization topology
+# aiaiaiai — organization topology
 
-> The canonical human-readable description of identity, organizational relationships, systems, and the long-term corporate direction of the aiaiaiai tech. ecosystem.
+> The canonical human-readable description of identity, organizational relationships, systems, and the long-term corporate direction of the aiaiaiai ecosystem.
 
 ## Core model
 
 The model begins with `Core ☦️`: the soul / spiritual core. It is not a legal entity, company, GitHub account, or ownership object.
 
-From that core, the ecosystem distinguishes a human identity and an organizational identity. `0x0sky` is the human owner and root identity. `aiaiaiai tech.` (`4xAI tech.`) is the organizational center for non-personal work and may evolve into the corporate parent.
+From that core, the ecosystem distinguishes a human identity and an organizational identity. `0x0sky` is the human owner and root identity. `aiaiaiai` (`4xAI`) is the organizational center for non-personal work and may evolve into the corporate parent.
 
 ```text
 Core ☦️
@@ -16,7 +16,7 @@ Core ☦️
 │  ├─ owner / root
 │  └─ state: Stable | Recovering | Open
 │
-└─ aiaiaiai tech.
+└─ aiaiaiai
    organizational / corporate identity
    │
    ├─ 0xda-market
@@ -34,10 +34,10 @@ This is a **native graph**, not a filesystem hierarchy. The diagram shows the pr
 
 - `Core ☦️` is the soul / spiritual core from which identity is described; it does not own assets or repositories.
 - `0x0sky` is the human owner, founder, and root identity.
-- `aiaiaiai tech.` is the organizational center for non-personal work and the intended future corporate parent.
-- The relationship between `0x0sky` and `aiaiaiai tech.` is intentionally not defined as identity equality. They share the same core, while remaining distinct nodes so the organization can evolve independently.
-- `0xda-market` has direct relationships to `aiaiaiai tech.` and `0x0sky`.
-- `nilx.one` has direct relationships to `aiaiaiai tech.` and `0x0sky`.
+- `aiaiaiai` is the organizational center for non-personal work and the intended future corporate parent.
+- The relationship between `0x0sky` and `aiaiaiai` is intentionally not defined as identity equality. They share the same core, while remaining distinct nodes so the organization can evolve independently.
+- `0xda-market` has direct relationships to `aiaiaiai` and `0x0sky`.
+- `nilx.one` has direct relationships to `aiaiaiai` and `0x0sky`.
 - sibling organizations may collaborate directly without changing their parent relationship.
 - personal projects remain attached to `0x0sky` and outside the corporate graph unless explicitly moved into it.
 
@@ -57,7 +57,9 @@ These are systems of `0xda-market`, not sibling organizations of it. Repository 
 
 ## GitHub representation
 
-GitHub organizations are technically peer namespaces. GitHub does not provide a native parent/subsidiary hierarchy between organizations.
+The canonical organization identity is `aiaiaiai`. Its current GitHub namespace is [`aiaiaiai-org`](https://github.com/aiaiaiai-org).
+
+GitHub organizations are technically peer namespaces. GitHub does not provide a native parent/subsidiary hierarchy between organizations, and the provider namespace is not the protocol-level organization id.
 
 That limitation does not redefine this ecosystem. The organizational relationship is expressed through public profiles, `mind` repositories, manifests, documentation, repository references, and the graph rendered by ecosystem tooling.
 
@@ -67,11 +69,11 @@ A consumer should therefore treat GitHub membership and namespace ownership as t
 
 ## Corporate direction
 
-Today, `aiaiaiai tech.` is a GitHub organization and an operating organizational identity.
+Today, `aiaiaiai` is represented by a GitHub organization and an operating organizational identity.
 
-The intended long-term direction is for `aiaiaiai tech.` to become the legal corporate parent — initially through an appropriate Ukrainian legal entity and, as the organization grows, potentially a broader corporate structure capable of owning or governing subsidiaries, products, intellectual property, and shared infrastructure.
+The intended long-term direction is for `aiaiaiai` to become the legal corporate parent — initially through an appropriate Ukrainian legal entity and, as the organization grows, potentially a broader corporate structure capable of owning or governing subsidiaries, products, intellectual property, and shared infrastructure.
 
-The exact future legal form is intentionally not encoded as a permanent technical invariant. Legal structure can evolve; the durable invariant is that `aiaiaiai tech.` is the organizational center for non-personal work.
+The exact future legal form is intentionally not encoded as a permanent technical invariant. Legal structure can evolve; the durable invariant is that `aiaiaiai` is the organizational center for non-personal work.
 
 ## Identity boundaries
 
@@ -83,7 +85,7 @@ Soul / spiritual core. It precedes the technical and legal model and must not be
 
 Human owner, founder, and root identity. Personal work originates here and does not automatically become corporate property merely because it appears in the wider ecosystem graph.
 
-### aiaiaiai tech.
+### aiaiaiai
 
 Organizational identity, coordination hub, and future corporate center. Shared engineering principles, organizational context, cross-project infrastructure, and future company-level governance belong here.
 
@@ -102,12 +104,12 @@ The structure should remain legible to both people and software:
 ```text
 spiritual core:       Core ☦️
 human root / owner:   0x0sky
-organizational hub:   aiaiaiai tech.
+organizational hub:   aiaiaiai
 children:             0xda-market, nilx.one
 0xda-market systems:  core, webapp-core, telegram-bot
 nilx.one product:     0x1
 ```
 
-As new non-personal organizations are created, they should connect to `aiaiaiai tech.` as their organizational parent and to `0x0sky` as owner unless a later governance or legal document explicitly changes that relationship.
+As new non-personal organizations are created, they should connect to `aiaiaiai` as their organizational parent and to `0x0sky` as owner unless a later governance or legal document explicitly changes that relationship.
 
 This file is the canonical human-readable source for that topology. Machine-readable manifests may encode the same relationships, but must not contradict them.
