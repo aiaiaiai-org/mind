@@ -1,0 +1,15 @@
+# © 2026 aiaiaiai · aiaiaiai.org
+# SPDX-License-Identifier: MIT
+schema_version: 1
+module:
+  id: decisions
+  purpose: index durable organization-level decisions that affect shared contracts
+  stability: stable
+  dependencies:
+    - governance
+  entrypoints:
+    - modules/decisions/README.md
+  owner:
+    type: organization
+    id: aiaiaiai-tech
+  visibility: public

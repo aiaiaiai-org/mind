@@ -1,0 +1,15 @@
+# © 2026 aiaiaiai · aiaiaiai.org
+# SPDX-License-Identifier: MIT
+schema_version: 1
+module:
+  id: governance
+  purpose: define stable organization-wide ownership review and publication rules
+  stability: stable
+  dependencies:
+    - identity
+  entrypoints:
+    - modules/governance/README.md
+  owner:
+    type: organization
+    id: aiaiaiai-tech
+  visibility: public

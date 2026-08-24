@@ -1,15 +1,25 @@
-schema_version: 1
+# © 2026 aiaiaiai · aiaiaiai.org
+# SPDX-License-Identifier: MIT
+schema_version: 2
+
+protocol:
+  id: mind
+  version: 0.4.0-rc.1
 
 mind:
   name: aiaiaiai-tech-mind
   kind: organization
-  context_version: 0.1.0
+  context_version: 0.2.0
+  subject:
+    type: organization
+    id: aiaiaiai-tech
   owner:
     type: organization
-    id: aiaiaiaitech
+    id: aiaiaiai-tech
 
 contract:
   canonical_source: required
+  explicit_subject: required
   explicit_owner: required
   versioned_context: required
   human_readable: required
@@ -35,12 +45,27 @@ modules:
     duplicate_content: forbidden
     cross_reference: preferred
     composition_over_inheritance: preferred
+  catalog:
+    identity: modules/identity/module.yaml
+    governance: modules/governance/module.yaml
+    engineering: modules/engineering/module.yaml
+    portfolio: modules/portfolio/module.yaml
+    decisions: modules/decisions/module.yaml
 
 context:
   stability:
     stable: long_lived_contracts
     transient: current_state
     archived: ignored_unless_requested
+  visibility:
+    repository: public
+    allowed: durable_public_organization_context
+    forbidden:
+      - credentials
+      - secrets
+      - private_personal_data
+      - private_infrastructure_state
+      - transient_operational_state
 
 loading:
   default:
@@ -53,3 +78,4 @@ loading:
 
 validation:
   schema: schema/mind.schema.json
+  module_schema: schema/module.schema.json

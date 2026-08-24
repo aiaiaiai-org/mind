@@ -1,51 +1,44 @@
 # aiaiaiai tech. mind
 
-> A versioned organization context repository for humans and AI systems.
+> The canonical public organization mind of `aiaiaiai tech.`.
 
-This repository is an integration fork of the vendor-independent [`mind`](https://github.com/0x0sky/mind) baseline. It specializes the baseline contract as the organization mind for `aiaiaiaitech` while keeping reusable framework concerns upstream.
+This repository is a concrete organization implementation of the vendor-independent [Mind Protocol](https://github.com/0x0sky/mind). Protocol semantics remain upstream; organization-specific identity and context remain here.
 
 ## Organization identity
 
 - **Organization:** `aiaiaiai tech.` / `4xAI tech.`
+- **Canonical subject id:** `aiaiaiai-tech`
 - **Owner / root identity:** [0x0sky](https://github.com/0x0sky)
 - **Role:** parent organization and organizational hub for non-personal work
 - **Current form:** GitHub organization and operating identity
 - **Long-term direction:** legal corporate parent
 - **Child organizations / namespaces:** [0xda-market](https://github.com/0xda-market), [nilx.one](https://github.com/nilx-one)
 
-The canonical topology is defined in [`ORGANIZATION.md`](ORGANIZATION.md). It treats the ecosystem as a graph: `0x0sky` is the ownership root, `aiaiaiai tech.` is the organizational center, and each child organization has direct relationships to both.
+The canonical topology is defined in [`ORGANIZATION.md`](ORGANIZATION.md). GitHub namespaces are technically peers and do not define conceptual ownership hierarchy.
 
-```text
-             0x0sky
-            /  |  \
-           v   v   v
-      aiaiaiai tech.
-        /         \
-       v           v
-0xda-market     nilx.one
-                   |
-                   v
-                  0x1
-```
+## Protocol contract
 
-GitHub represents these organizations as technically independent peer namespaces. That implementation detail does not define their ownership or organizational relationships.
+`manifest.yaml` is the machine-readable entry point. The current instance implements Mind Protocol `0.4.0-rc.1` with manifest schema v2.
 
-Personal projects owned by `0x0sky` remain outside the corporate graph unless explicitly declared otherwise.
+The manifest separates:
 
-## Purpose
+- `mind.subject` — the organization this mind describes;
+- `mind.owner` — the repository publication authority;
+- `mind.context_version` — this organization's independently versioned context;
+- `protocol.version` — the shared Mind Protocol version.
 
-The repository is the canonical source for stable organization-wide context that should be shared across projects without being duplicated in every repository.
-
-It intentionally excludes secrets, private personal context, repository-local implementation details, and transient operational state.
+Both subject and publication owner are currently `organization:aiaiaiai-tech`.
 
 ## Composition
 
 ```text
 OrganizationMind
-├── ORGANIZATION.md
 ├── manifest.yaml
+├── ORGANIZATION.md
 ├── schema/
-│   └── mind.schema.json
+│   ├── mind.schema.json
+│   ├── module.schema.json
+│   └── identity.schema.json
 └── modules/
     ├── identity/
     ├── governance/
@@ -54,9 +47,9 @@ OrganizationMind
     └── decisions/
 ```
 
-Default modules:
+Required modules:
 
-- `identity` — canonical public organization identity and naming;
+- `identity` — canonical public organization identity;
 - `governance` — durable ownership, review, and publication rules;
 - `engineering` — organization-wide engineering contracts;
 - `portfolio` — stable project and product index.
@@ -65,24 +58,20 @@ Optional module:
 
 - `decisions` — cross-repository decision records.
 
-## Integration model
+Every module has a validated `module.yaml`. The identity module additionally exposes the typed machine-readable resource `modules/identity/identity.yaml`.
 
-- `0x0sky/mind` remains the neutral upstream contract.
-- `aiaiaiaitech/mind` evolves independently as the concrete parent-organization mind.
-- `ORGANIZATION.md` is the canonical human-readable source for ecosystem ownership and topology.
-- Child organization minds reference this organization as their parent while remaining independently versioned repositories.
-- Neutral improvements may be contributed upstream as isolated commits or versioned contract changes.
-- Organization-specific content must not be pushed upstream.
-- Repository-specific implementation remains canonical in the owning repository and is referenced from here.
+## Protocol relationship
 
-## Change policy
+- `0x0sky/mind` is the canonical protocol reference implementation and personal reference mind.
+- `aiaiaiai-tech/mind` is independently versioned organization context implementing that protocol.
+- reusable protocol semantics belong upstream;
+- organization-specific content belongs here;
+- repository-specific implementation remains canonical in its owning repository and is referenced rather than copied.
 
-1. Work on a focused branch.
-2. Validate `manifest.yaml` against `schema/mind.schema.json`.
-3. Open a draft pull request.
-4. Require green checks before publication.
-5. Merge or release only after explicit review and authorization.
+## Validation
+
+Mind Contract CI validates the manifest, module catalog and descriptors, dependency graph, typed resources, subject consistency, and repository paths.
 
 ## Visibility
 
-This repository may be public. Never commit secrets, credentials, private health data, access tokens, private personal profiles, or transient infrastructure state.
+This repository contains durable public organization context only. Never commit secrets, credentials, private personal data, private infrastructure state, or transient operational state.

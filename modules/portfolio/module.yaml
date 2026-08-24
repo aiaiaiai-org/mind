@@ -1,0 +1,16 @@
+# © 2026 aiaiaiai · aiaiaiai.org
+# SPDX-License-Identifier: MIT
+schema_version: 1
+module:
+  id: portfolio
+  purpose: index stable organization projects products and their ownership boundaries
+  stability: stable
+  dependencies:
+    - identity
+    - governance
+  entrypoints:
+    - modules/portfolio/README.md
+  owner:
+    type: organization
+    id: aiaiaiai-tech
+  visibility: public

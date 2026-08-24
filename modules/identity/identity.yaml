@@ -1,0 +1,9 @@
+# © 2026 aiaiaiai · aiaiaiai.org
+# SPDX-License-Identifier: MIT
+schema_version: 1
+identity:
+  type: organization
+  id: aiaiaiai-tech
+  display_name: aiaiaiai tech.
+validation:
+  schema: schema/identity.schema.json
