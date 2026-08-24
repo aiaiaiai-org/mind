@@ -3,7 +3,7 @@
 schema_version: 1
 identity:
   type: organization
-  id: aiaiaiai-tech
-  display_name: aiaiaiai tech.
+  id: aiaiaiai
+  display_name: aiaiaiai
 validation:
   schema: schema/identity.schema.json
