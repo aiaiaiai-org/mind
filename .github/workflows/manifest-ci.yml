@@ -10,24 +10,30 @@ on:
       - manifest.yaml
       - protocol.yaml
       - protocol.lock.yaml
+      - conformance.yaml
+      - compatibility.yaml
       - schema/**
       - scripts/**
       - "**/module.yaml"
       - "**/identity.yaml"
       - "**/relationships.yaml"
       - docs/migrations/**
+      - docs/protocol-consumption/**
       - .github/workflows/manifest-ci.yml
   pull_request:
     paths:
       - manifest.yaml
       - protocol.yaml
       - protocol.lock.yaml
+      - conformance.yaml
+      - compatibility.yaml
       - schema/**
       - scripts/**
       - "**/module.yaml"
       - "**/identity.yaml"
       - "**/relationships.yaml"
       - docs/migrations/**
+      - docs/protocol-consumption/**
       - .github/workflows/manifest-ci.yml
   workflow_dispatch:
 
