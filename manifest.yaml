@@ -7,15 +7,15 @@ protocol:
   version: 0.5.0-rc.1
 
 mind:
-  name: aiaiaiai-tech-mind
+  name: aiaiaiai-mind
   kind: organization
-  context_version: 0.2.1
+  context_version: 0.2.2
   subject:
     type: organization
-    id: aiaiaiai-tech
+    id: aiaiaiai
   owner:
     type: organization
-    id: aiaiaiai-tech
+    id: aiaiaiai
 
 contract:
   canonical_source: required
