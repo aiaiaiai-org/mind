@@ -1,0 +1,29 @@
+# © 2026 aiaiaiai · aiaiaiai.org
+# SPDX-License-Identifier: MIT
+schema_version: 1
+
+relationships:
+  - id: member-0x0sky
+    predicate: member_of
+    source:
+      type: person
+      id: 0x0sky
+    target:
+      type: organization
+      id: aiaiaiai-tech
+    direction: directed
+    provenance:
+      kind: authored
+      authority:
+        type: organization
+        id: aiaiaiai-tech
+    confirmation:
+      state: reciprocal
+      counterpart:
+        entity:
+          type: person
+          id: 0x0sky
+        relationship_id: member-of-aiaiaiai-tech
+
+validation:
+  schema: schema/relationships.schema.json
