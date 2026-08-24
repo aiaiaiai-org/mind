@@ -4,12 +4,12 @@ schema_version: 2
 
 protocol:
   id: mind
-  version: 0.4.0
+  version: 0.5.0-rc.1
 
 mind:
   name: aiaiaiai-tech-mind
   kind: organization
-  context_version: 0.2.0
+  context_version: 0.2.1
   subject:
     type: organization
     id: aiaiaiai-tech
@@ -34,6 +34,7 @@ modules:
     - portfolio
   registered:
     - identity
+    - relationships
     - governance
     - engineering
     - portfolio
@@ -47,6 +48,7 @@ modules:
     composition_over_inheritance: preferred
   catalog:
     identity: modules/identity/module.yaml
+    relationships: modules/relationships/module.yaml
     governance: modules/governance/module.yaml
     engineering: modules/engineering/module.yaml
     portfolio: modules/portfolio/module.yaml
@@ -70,6 +72,7 @@ context:
 loading:
   default:
     - identity
+    - relationships
     - governance
     - engineering
     - portfolio

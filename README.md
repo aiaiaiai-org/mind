@@ -14,22 +14,11 @@ This repository is a concrete organization implementation of the vendor-independ
 - **Long-term direction:** legal corporate parent
 - **Child organizations / namespaces:** [0xda-market](https://github.com/0xda-market), [nilx.one](https://github.com/nilx-one)
 
-The canonical topology is defined in [`ORGANIZATION.md`](ORGANIZATION.md). GitHub namespaces are technically peers and do not define conceptual ownership hierarchy.
-
 ## Protocol contract
 
-`manifest.yaml` is the machine-readable entry point. The current instance implements stable Mind Protocol `0.4.0` with manifest schema v2.
+`manifest.yaml` is the machine-readable entry point. This instance implements Mind Protocol `0.5.0-rc.1` with manifest schema v2 and organization context `0.2.1`.
 
-The manifest separates:
-
-- `mind.subject` — the organization this mind describes;
-- `mind.owner` — the repository publication authority;
-- `mind.context_version` — this organization's independently versioned context;
-- `protocol.version` — the shared Mind Protocol version.
-
-Both subject and publication owner are currently `organization:aiaiaiai-tech`.
-
-The rc-to-stable protocol promotion does not change this organization's durable subject context, so `mind.context_version` remains `0.2.0`.
+The context version moves from `0.2.0` because the organization now publishes a durable authored relationship resource. The root manifest schema remains `2`; relationship semantics are composed through a typed module rather than a new root graph field.
 
 ## Composition
 
@@ -40,39 +29,40 @@ OrganizationMind
 ├── schema/
 │   ├── mind.schema.json
 │   ├── module.schema.json
-│   └── identity.schema.json
+│   ├── identity.schema.json
+│   └── relationships.schema.json
 └── modules/
     ├── identity/
+    ├── relationships/
     ├── governance/
     ├── engineering/
     ├── portfolio/
     └── decisions/
 ```
 
-Required modules:
+Required organization modules remain `identity`, `governance`, `engineering`, and `portfolio`. The `relationships` module is registered and loaded by default because this organization publishes authored relationship context. `decisions` remains optional.
 
-- `identity` — canonical public organization identity;
-- `governance` — durable ownership, review, and publication rules;
-- `engineering` — organization-wide engineering contracts;
-- `portfolio` — stable project and product index.
+## Reciprocal relationship
 
-Optional module:
+The organization independently publishes:
 
-- `decisions` — cross-repository decision records.
+```text
+person:0x0sky --member_of--> organization:aiaiaiai-tech
+```
 
-Every module has a validated `module.yaml`. The identity module additionally exposes the typed machine-readable resource `modules/identity/identity.yaml`.
+Its local relationship id is `member-0x0sky`. The assertion is marked `reciprocal` and references `person:0x0sky` plus the personal mind's local relationship id `member-of-aiaiaiai-tech`.
+
+This is not inferred from GitHub. The two canonical minds independently author the same semantic relation under their own publication authorities. Provider membership may be used only as derived corroborating evidence.
 
 ## Protocol relationship
 
-- `0x0sky/mind` is the canonical protocol reference implementation and personal reference mind.
-- `aiaiaiai-tech/mind` is independently versioned organization context implementing that protocol.
-- reusable protocol semantics belong upstream;
-- organization-specific content belongs here;
-- repository-specific implementation remains canonical in its owning repository and is referenced rather than copied.
+- `0x0sky/mind` owns reusable protocol semantics and the personal endpoint's canonical context;
+- `aiaiaiai-tech/mind` owns organization-specific identity, relationship, governance, engineering, and portfolio context;
+- repository-specific implementation remains canonical in the owning repository and is referenced rather than copied.
 
 ## Validation
 
-Mind Contract CI validates the manifest, module catalog and descriptors, dependency graph, typed resources, subject consistency, and repository paths.
+Mind Contract CI validates the manifest, module graph, typed resources, identity consistency, relationship subject/owner boundaries, reciprocal endpoint shape, and repository paths.
 
 ## Visibility
 
