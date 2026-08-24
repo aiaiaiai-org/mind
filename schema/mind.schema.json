@@ -2,54 +2,342 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/0x0sky/mind/schema/mind.schema.json",
   "title": "Mind Manifest",
+  "description": "Contract for manifest.yaml in a mind repository.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "mind", "contract", "modules", "context", "loading", "validation"],
-  "properties": {
-    "schema_version": { "type": "integer", "minimum": 1 },
-    "mind": {
+  "required": [
+    "schema_version",
+    "protocol",
+    "mind",
+    "contract",
+    "modules",
+    "context",
+    "loading",
+    "validation"
+  ],
+  "$defs": {
+    "module_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "module_ids": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/module_id"
+      },
+      "uniqueItems": true
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "unspecified",
+        "person",
+        "organization",
+        "agent",
+        "project",
+        "product"
+      ]
+    },
+    "entity_ref": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "kind", "context_version", "owner"],
+      "required": [
+        "type",
+        "id"
+      ],
       "properties": {
-        "name": { "type": "string", "minLength": 1 },
-        "kind": { "type": "string", "enum": ["abstract", "personal", "organization", "project", "product"] },
-        "context_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "type": {
+          "$ref": "#/$defs/entity_type"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "stable_semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "description": "Version of the manifest shape understood by the validator.",
+      "const": 2
+    },
+    "protocol": {
+      "description": "Protocol identity and semantic version used by this mind.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "const": "mind"
+        },
+        "version": {
+          "$ref": "#/$defs/semver"
+        }
+      }
+    },
+    "mind": {
+      "description": "Stable identity, subject, publication authority, and context version of the mind.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "kind",
+        "context_version",
+        "subject",
+        "owner"
+      ],
+      "properties": {
+        "name": {
+          "description": "Human-readable stable mind name.",
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "description": "Compatibility classification of the represented subject.",
+          "type": "string",
+          "enum": [
+            "abstract",
+            "personal",
+            "organization",
+            "agent",
+            "project",
+            "product"
+          ]
+        },
+        "context_version": {
+          "description": "Semantic version of the published context instance.",
+          "$ref": "#/$defs/stable_semver"
+        },
+        "subject": {
+          "description": "Entity this mind describes and is authoritative about.",
+          "$ref": "#/$defs/entity_ref"
+        },
         "owner": {
+          "description": "Entity that owns or publishes this repository and is accountable for its publication.",
+          "$ref": "#/$defs/entity_ref"
+        }
+      }
+    },
+    "public_organizations": {
+      "description": "Optional authored public GitHub organization relations. Omission delegates organization presence to provider-discovered memberships; an empty list publishes none; a populated list explicitly publishes the listed public organization relations and consumers must preserve manifest provenance when projecting them.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 39,
+        "pattern": "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
+      },
+      "uniqueItems": true
+    },
+    "contract": {
+      "description": "Repository-wide guarantees exposed to consumers.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_source",
+        "explicit_subject",
+        "explicit_owner",
+        "versioned_context",
+        "human_readable",
+        "machine_readable",
+        "secrets"
+      ],
+      "properties": {
+        "canonical_source": {
+          "const": "required"
+        },
+        "explicit_subject": {
+          "const": "required"
+        },
+        "explicit_owner": {
+          "const": "required"
+        },
+        "versioned_context": {
+          "const": "required"
+        },
+        "human_readable": {
+          "const": "required"
+        },
+        "machine_readable": {
+          "const": "required"
+        },
+        "secrets": {
+          "const": "forbidden"
+        }
+      }
+    },
+    "modules": {
+      "description": "Registered modules, architectural rules, and descriptor paths.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "registered",
+        "rules",
+        "catalog"
+      ],
+      "properties": {
+        "required": {
+          "description": "Module IDs that must be loaded by default.",
+          "$ref": "#/$defs/module_ids"
+        },
+        "registered": {
+          "description": "Complete set of module IDs available in the mind.",
+          "$ref": "#/$defs/module_ids"
+        },
+        "rules": {
+          "description": "Architectural guarantees for registered modules.",
           "type": "object",
           "additionalProperties": false,
-          "required": ["type", "id"],
+          "required": [
+            "single_responsibility",
+            "explicit_dependencies",
+            "independently_replaceable",
+            "duplicate_content",
+            "cross_reference",
+            "composition_over_inheritance"
+          ],
           "properties": {
-            "type": { "type": "string", "enum": ["unspecified", "person", "organization", "project", "product"] },
-            "id": { "type": "string", "minLength": 1 }
+            "single_responsibility": {
+              "const": "required"
+            },
+            "explicit_dependencies": {
+              "const": "required"
+            },
+            "independently_replaceable": {
+              "const": "required"
+            },
+            "duplicate_content": {
+              "const": "forbidden"
+            },
+            "cross_reference": {
+              "const": "preferred"
+            },
+            "composition_over_inheritance": {
+              "const": "preferred"
+            }
+          }
+        },
+        "catalog": {
+          "description": "Repository-relative descriptor path for every registered module.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/module_id"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_.-]+\\.ya?ml$"
           }
         }
       }
     },
-    "contract": { "type": "object" },
-    "modules": {
+    "context": {
+      "description": "Stability and visibility vocabulary used by the mind.",
       "type": "object",
-      "required": ["required", "registered", "rules"],
+      "additionalProperties": false,
+      "required": [
+        "stability",
+        "visibility"
+      ],
       "properties": {
-        "required": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
-        "registered": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
-        "rules": { "type": "object" }
+        "stability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stable",
+            "transient",
+            "archived"
+          ],
+          "properties": {
+            "stable": {
+              "const": "long_lived_contracts"
+            },
+            "transient": {
+              "const": "current_state"
+            },
+            "archived": {
+              "const": "ignored_unless_requested"
+            }
+          }
+        },
+        "visibility": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "repository",
+            "allowed",
+            "forbidden"
+          ],
+          "properties": {
+            "repository": {
+              "type": "string",
+              "enum": [
+                "public",
+                "private"
+              ]
+            },
+            "allowed": {
+              "type": "string",
+              "minLength": 1
+            },
+            "forbidden": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          }
+        }
       }
     },
-    "context": { "type": "object" },
     "loading": {
+      "description": "Default and opt-in module loading sets.",
       "type": "object",
-      "required": ["default", "optional"],
+      "additionalProperties": false,
+      "required": [
+        "default",
+        "optional"
+      ],
       "properties": {
-        "default": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
-        "optional": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+        "default": {
+          "description": "Modules loaded for every consumer.",
+          "$ref": "#/$defs/module_ids"
+        },
+        "optional": {
+          "description": "Modules loaded only when explicitly requested.",
+          "$ref": "#/$defs/module_ids"
+        }
       }
     },
     "validation": {
+      "description": "Machine-readable validation contracts for the manifest and module descriptors.",
       "type": "object",
-      "required": ["schema"],
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "module_schema"
+      ],
       "properties": {
-        "schema": { "const": "schema/mind.schema.json" }
+        "schema": {
+          "const": "schema/mind.schema.json"
+        },
+        "module_schema": {
+          "const": "schema/module.schema.json"
+        }
       }
     }
   }

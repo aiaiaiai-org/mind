@@ -1,0 +1,16 @@
+# © 2026 aiaiaiai · aiaiaiai.org
+# SPDX-License-Identifier: MIT
+schema_version: 1
+module:
+  id: engineering
+  purpose: define organization-wide software engineering contracts
+  stability: stable
+  dependencies:
+    - identity
+    - governance
+  entrypoints:
+    - modules/engineering/README.md
+  owner:
+    type: organization
+    id: aiaiaiai-tech
+  visibility: public

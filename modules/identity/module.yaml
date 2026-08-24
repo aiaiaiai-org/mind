@@ -1,0 +1,19 @@
+# © 2026 aiaiaiai · aiaiaiai.org
+# SPDX-License-Identifier: MIT
+schema_version: 1
+module:
+  id: identity
+  purpose: define the canonical public organization identity represented by this mind
+  stability: stable
+  dependencies: []
+  entrypoints:
+    - modules/identity/README.md
+  owner:
+    type: organization
+    id: aiaiaiai-tech
+  visibility: public
+  resources:
+    identity:
+      path: modules/identity/identity.yaml
+      format: yaml
+      schema: schema/identity.schema.json
