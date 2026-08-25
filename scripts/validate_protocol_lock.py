@@ -17,11 +17,12 @@ LOCK_PATH = ROOT / "protocol.lock.yaml"
 MANIFEST_PATH = ROOT / "manifest.yaml"
 EXPECTED_AUTHORITY_REPOSITORY = "aiaiaiai-org/mind-protocol"
 EXPECTED_RELEASE_SOURCE = {
-    "repository": "0x0sky/mind",
-    "tag": "v0.9.0",
-    "commit": "457844c8ced0318d91d628617ff6f8ec6f428ab7",
+    "repository": "aiaiaiai-org/mind-protocol",
+    "tag": "v1.0.0-rc.1",
+    "commit": "6bf8467f0e3990808464e118cc60cc83d8ab2ced",
     "floating_branch": "forbidden",
 }
+EXPECTED_PROTOCOL = {"id": "mind", "version": "1.0.0-rc.1"}
 
 
 def git_blob_sha1(path: Path) -> str:
@@ -33,7 +34,7 @@ def verify_blob(path: Path, expected_sha: Any, label: str, errors: list[str]) ->
     if not path.is_file():
         errors.append(f"locked release artifact is missing: {label}")
     elif git_blob_sha1(path) != expected_sha:
-        errors.append(f"release artifact drift from v0.9.0: {label}")
+        errors.append(f"release artifact drift from v1.0.0-rc.1: {label}")
 
 
 def validate() -> list[str]:
@@ -42,33 +43,22 @@ def validate() -> list[str]:
     manifest = load_yaml_mapping(MANIFEST_PATH)
 
     protocol = lock.get("protocol")
-    if protocol != {"id": "mind", "version": "0.9.0"}:
-        errors.append("protocol.lock.yaml must pin Mind Protocol 0.9.0 exactly")
+    if protocol != EXPECTED_PROTOCOL:
+        errors.append("protocol.lock.yaml must pin Mind Protocol 1.0.0-rc.1 exactly")
     if manifest.get("protocol") != protocol:
         errors.append("manifest protocol must match protocol.lock.yaml exactly")
-
     if lock.get("authority_repository") != EXPECTED_AUTHORITY_REPOSITORY:
         errors.append("current Mind Protocol authority must be aiaiaiai-org/mind-protocol")
     if lock.get("release_source") != EXPECTED_RELEASE_SOURCE:
-        errors.append(
-            "Mind Protocol 0.9.0 release provenance must remain 0x0sky/mind@v0.9.0 "
-            "at the immutable historical release commit"
-        )
+        errors.append("release provenance must pin aiaiaiai-org/mind-protocol@v1.0.0-rc.1 exactly")
     if "source" in lock:
-        errors.append(
-            "ambiguous legacy source field is forbidden; use authority_repository and release_source"
-        )
+        errors.append("ambiguous legacy source field is forbidden; use authority_repository and release_source")
 
     descriptor = lock.get("protocol_descriptor")
     if not isinstance(descriptor, dict):
         errors.append("protocol_descriptor lock is missing")
     else:
-        verify_blob(
-            ROOT / str(descriptor.get("path", "")),
-            descriptor.get("git_blob_sha1"),
-            "protocol.yaml",
-            errors,
-        )
+        verify_blob(ROOT / str(descriptor.get("path", "")), descriptor.get("git_blob_sha1"), "protocol.yaml", errors)
 
     machine_artifacts = lock.get("release_machine_artifacts")
     if not isinstance(machine_artifacts, dict) or not machine_artifacts:
@@ -78,12 +68,7 @@ def validate() -> list[str]:
             if not isinstance(relative_path, str) or not isinstance(artifact, dict):
                 errors.append("release_machine_artifacts entries must be path -> descriptor mappings")
                 continue
-            verify_blob(
-                ROOT / relative_path,
-                artifact.get("git_blob_sha1"),
-                relative_path,
-                errors,
-            )
+            verify_blob(ROOT / relative_path, artifact.get("git_blob_sha1"), relative_path, errors)
 
     contracts = lock.get("vendored_contracts")
     if not isinstance(contracts, dict) or not contracts:
@@ -111,7 +96,6 @@ def validate() -> list[str]:
     compatibility = load_yaml_mapping(ROOT / "compatibility.yaml")
     if compatibility.get("protocol") != protocol:
         errors.append("compatibility.yaml protocol binding must match protocol.lock.yaml")
-
     frozen = compatibility.get("freeze", {}).get("frozen_contracts")
     if not isinstance(frozen, list):
         errors.append("compatibility.yaml frozen contract set is missing")
@@ -128,18 +112,16 @@ def validate() -> list[str]:
             if isinstance(path, str) and isinstance(descriptor, dict)
         }
         if locked != published:
-            errors.append("vendored contract set must equal the complete v0.9.0 compatibility freeze")
+            errors.append("vendored contract set must equal the complete RC compatibility freeze")
 
     conformance = load_yaml_mapping(ROOT / "conformance.yaml")
     if conformance.get("protocol") != protocol:
         errors.append("conformance.yaml protocol binding must match protocol.lock.yaml")
-
     if lock.get("context_versioning") != {
         "independent_from_protocol": True,
         "protocol_tags_in_this_repository": "forbidden",
     }:
         errors.append("context/protocol versioning boundary is not canonical")
-
     return errors
 
 
@@ -149,17 +131,12 @@ def main() -> int:
     except (OSError, ValueError, TypeError) as error:
         print(f"protocol release lock validation failed:\n- {error}", file=sys.stderr)
         return 1
-
     if errors:
         print("protocol release lock validation failed:", file=sys.stderr)
         for error in errors:
             print(f"- {error}", file=sys.stderr)
         return 1
-
-    print(
-        "concrete Mind pins the complete historical Mind Protocol v0.9.0 release "
-        "while naming aiaiaiai-org/mind-protocol as current authority"
-    )
+    print("concrete Mind pins the complete immutable Mind Protocol v1.0.0-rc.1 release")
     return 0
 
 
