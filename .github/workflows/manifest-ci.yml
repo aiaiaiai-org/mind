@@ -8,6 +8,7 @@ on:
       - master
     paths:
       - manifest.yaml
+      - mind-repository.yaml
       - protocol.yaml
       - protocol.lock.yaml
       - conformance.yaml
@@ -23,6 +24,7 @@ on:
   pull_request:
     paths:
       - manifest.yaml
+      - mind-repository.yaml
       - protocol.yaml
       - protocol.lock.yaml
       - conformance.yaml
