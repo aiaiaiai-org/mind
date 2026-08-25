@@ -14,7 +14,7 @@ assets:
     resource_path: assets/visual/aiaiaiai/exports/compact-emblem-1024.png
     integrity:
       algorithm: sha256
-      digest: 1f7bc02913d3b71e1366bec4aea6248669b5897a589031040ae7ed0627844a12
+      digest: 0bb8966aee7afb6877c17b4c44d41a69043b2e48653a37f4594c72b912047622
 
 validation:
   schema: schema/visual-assets.schema.json
