@@ -1,6 +1,6 @@
 # Mind 0.9 authority topology audit
 
-Status: **PASS — content/contract topology normalized; GitHub fork-network detach pending manual action**  
+Status: **PASS — content/contract topology normalized; historical GitHub fork metadata intentionally preserved**  
 Observed: 2026-08-25
 
 ## Purpose
@@ -81,14 +81,15 @@ No Identity/context version was changed merely because protocol authority moved 
 
 ## GitHub repository topology
 
-The semantic target is already declared in all four concrete repositories: each concrete Mind is an independent consumer, not a fork of the protocol repository.
+The semantic topology is already complete: each concrete Mind is an independent protocol consumer and none treats GitHub fork ancestry as protocol inheritance.
 
-The remaining GitHub-host metadata cleanup is separate from source/content migration. At the time of this audit:
+GitHub still records `aiaiaiai-org/mind`, `0xda-market/mind`, and `nilx-one/mind` inside the historical `0x0sky/mind` fork network. This host-level relationship predates the physical authority split and is explicitly **non-semantic**.
 
-- `0x0sky/mind` is already standalone;
-- `aiaiaiai-org/mind`, `0xda-market/mind`, and `nilx-one/mind` still belong to the historical `0x0sky/mind` fork network and must be detached manually only after this report is green and merged.
+GitHub's current `Leave fork network` operation is destructive to repository metadata: Git commits are preserved, but issues, pull requests, comments, stars, watchers, wikis, child forks, and other associated metadata are not retained; the detach is permanent. Because review/CI history is valuable migration evidence, physical fork-network detachment is deliberately **deferred and is not an RC or 1.0 protocol gate**.
 
-They must **not** be attached to `aiaiaiai-org/mind-protocol` as forks. Protocol linkage is represented by immutable release locks, not fork ancestry.
+The concrete repositories must not be attached to `aiaiaiai-org/mind-protocol` as forks. Protocol linkage is represented by immutable release locks and protocol contracts, not GitHub fork ancestry.
+
+If physical detachment is ever desired later, it requires a separate repository-metadata migration with an explicit decision on preserving/exporting relevant GitHub metadata before the irreversible action.
 
 ## Acceptance
 
@@ -100,9 +101,10 @@ They must **not** be attached to `aiaiaiai-org/mind-protocol` as forks. Protocol
 - [x] all four use the same release lock bytes;
 - [x] all four preserve canonical Identity and independent context versions;
 - [x] latest normalization CI is green for all four;
-- [x] GitHub fork relationship is explicitly non-semantic and scheduled for manual cleanup;
-- [ ] detach the three organization repositories from the historical GitHub fork network;
-- [ ] verify all three remain on the same `master` commit/tree after detach;
-- [ ] publish `v1.0.0-rc.1` from `aiaiaiai-org/mind-protocol` only after topology cleanup and final release validation.
+- [x] GitHub fork relationship is explicitly non-semantic;
+- [x] destructive fork-network detachment is not required for RC/stable protocol correctness;
+- [x] existing GitHub PR/review metadata is preserved by deferring detach;
+- [ ] publish `v1.0.0-rc.1` from `aiaiaiai-org/mind-protocol` after final release validation;
+- [ ] synchronize all four concrete consumers to that immutable RC release.
 
 <!-- © 2026 aiaiaiai · aiaiaiai.org -->
