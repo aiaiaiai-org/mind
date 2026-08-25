@@ -15,11 +15,14 @@ on:
       - compatibility.yaml
       - schema/**
       - scripts/**
+      - assets/**
       - "**/module.yaml"
       - "**/identity.yaml"
       - "**/relationships.yaml"
+      - "**/visual-assets.yaml"
       - docs/migrations/**
       - docs/protocol-consumption/**
+      - docs/visual-identity.md
       - .github/workflows/manifest-ci.yml
   pull_request:
     paths:
@@ -31,11 +34,14 @@ on:
       - compatibility.yaml
       - schema/**
       - scripts/**
+      - assets/**
       - "**/module.yaml"
       - "**/identity.yaml"
       - "**/relationships.yaml"
+      - "**/visual-assets.yaml"
       - docs/migrations/**
       - docs/protocol-consumption/**
+      - docs/visual-identity.md
       - .github/workflows/manifest-ci.yml
   workflow_dispatch:
 
@@ -56,7 +62,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install validator dependencies
-        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2 jsonschema==4.23.0
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2 jsonschema==4.23.0 Pillow==12.3.0
 
       - name: Validate vendored JSON Schemas
         run: python scripts/validate_schemas.py
@@ -69,6 +75,12 @@ jobs:
 
       - name: Validate universal Identity resource
         run: python scripts/validate_identity_resources.py
+
+      - name: Validate canonical visual assets
+        run: python scripts/validate_visual_assets.py
+
+      - name: Verify deterministic visual exports
+        run: python scripts/export_visual_assets.py --check
 
       - name: Validate relationship semantics
         run: python scripts/validate_relationships.py

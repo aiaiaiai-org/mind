@@ -17,3 +17,7 @@ module:
       path: modules/identity/identity.yaml
       format: yaml
       schema: schema/identity-resource.schema.json
+    visual_assets:
+      path: modules/identity/visual-assets.yaml
+      format: yaml
+      schema: schema/visual-assets.schema.json
