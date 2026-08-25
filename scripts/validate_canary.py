@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # © 2026 aiaiaiai · aiaiaiai.org
 # SPDX-License-Identifier: MIT
-"""Validate aiaiaiai organization canary invariants for Mind Protocol 1.0.0-rc.1."""
+"""Validate aiaiaiai organization canary invariants for Mind Protocol 1.0.0-rc.2."""
 
 from __future__ import annotations
 
@@ -29,11 +29,11 @@ MACHINE_CONTRACTS = (
 EXPECTED_ENTITY = {"type": "organization", "id": "aiaiaiai"}
 EXPECTED_PROTOCOL_CONSUMPTION = {
     "id": "mind",
-    "version": "1.0.0-rc.1",
+    "version": "1.0.0-rc.2",
     "authority_repository": "aiaiaiai-org/mind-protocol",
     "release_repository": "aiaiaiai-org/mind-protocol",
-    "release_tag": "v1.0.0-rc.1",
-    "release_commit": "6bf8467f0e3990808464e118cc60cc83d8ab2ced",
+    "release_tag": "v1.0.0-rc.2",
+    "release_commit": "acdcedcf02c8b4ef314179bf54955a84606c8fb5",
     "floating_master": "forbidden",
 }
 
@@ -46,8 +46,8 @@ def validate() -> list[str]:
 
     if manifest.get("schema_version") != 3:
         errors.append("manifest schema_version must be 3")
-    if manifest.get("protocol") != {"id": "mind", "version": "1.0.0-rc.1"}:
-        errors.append("manifest must consume Mind Protocol 1.0.0-rc.1")
+    if manifest.get("protocol") != {"id": "mind", "version": "1.0.0-rc.2"}:
+        errors.append("manifest must consume Mind Protocol 1.0.0-rc.2")
     if mind.get("name") != "mind@aiaiaiai":
         errors.append("canonical mind name must be mind@aiaiaiai")
     if mind.get("subject") != EXPECTED_ENTITY:
@@ -73,7 +73,7 @@ def validate() -> list[str]:
         errors.append("organization Mind must not be a template authority")
 
     if repository.get("protocol_consumption") != EXPECTED_PROTOCOL_CONSUMPTION:
-        errors.append("repository metadata must pin the immutable Protocol 1.0.0-rc.1 release exactly")
+        errors.append("repository metadata must pin the immutable Protocol 1.0.0-rc.2 release exactly")
     if repository.get("fork_policy", {}).get("relationship_to_protocol_repository") != "independent_consumer":
         errors.append("protocol relationship must be independent_consumer, not GitHub fork inheritance")
 
@@ -117,7 +117,7 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
 
-    print("aiaiaiai organization Mind is a standalone concrete 1.0.0-rc.1 consumer with unchanged Identity/context")
+    print("aiaiaiai organization Mind is a standalone concrete 1.0.0-rc.2 consumer with unchanged Identity/context")
     return 0
 
 

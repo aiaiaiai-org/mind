@@ -19,15 +19,15 @@ The canonical organization id is provider-independent. `aiaiaiai-org` is the cur
 
 ## Protocol contract
 
-`manifest.yaml` is the machine-readable entry point. This concrete Mind currently consumes **Mind Protocol `1.0.0-rc.1`** using manifest schema v3 while organization context remains `0.3.0`.
+`manifest.yaml` is the machine-readable entry point. This concrete Mind currently consumes **Mind Protocol `1.0.0-rc.2`** using manifest schema v3 while organization context remains `0.3.0`.
 
 `mind-repository.yaml` declares this repository as a concrete Mind only. It is neither protocol authority nor template authority, and its relationship to `aiaiaiai-org/mind-protocol` is `independent_consumer`.
 
 Exact release provenance:
 
 - authority/release repository: `aiaiaiai-org/mind-protocol`;
-- tag: `v1.0.0-rc.1`;
-- commit: `6bf8467f0e3990808464e118cc60cc83d8ab2ced`.
+- tag: `v1.0.0-rc.2`;
+- commit: `acdcedcf02c8b4ef314179bf54955a84606c8fb5`.
 
 `protocol.lock.yaml` pins the protocol descriptor, complete frozen schema set, conformance contract, compatibility policy, schema `$id` values, and Git blob fingerprints consumed by this repository. The JSON Schema bytes remain the frozen `0.9.0` shapes; only the protocol lifecycle/release binding advances to the RC.
 
@@ -83,7 +83,7 @@ Mind Contract CI validates published schema syntax, manifest v3 semantics, modul
 
 ## Visual identity boundary
 
-The RC continues to support optional canonical visual identity references, but this synchronization does not perform the full named visual-family rollout. That remains post-`1.0.0` work.
+The RC continues to support optional canonical visual identity references. Canonical `aiaiaiai` production assets are versioned by this concrete Mind, while binding the Identity primary mark and provider projections remains gated on stable Mind Protocol `1.0.0`.
 
 ## Visibility
 
