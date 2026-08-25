@@ -2,7 +2,7 @@
 
 > The canonical public organization mind of `aiaiaiai`.
 
-This repository is a concrete organization implementation of the implementation-independent [Mind Protocol](https://github.com/0x0sky/mind). Protocol semantics remain upstream; organization-specific identity and durable context remain here.
+This repository is a standalone concrete organization implementation of the implementation-independent [Mind Protocol](https://github.com/aiaiaiai-org/mind-protocol). Protocol semantics and future releases live in the protocol authority repository; organization-specific identity and durable context remain here.
 
 ## Organization identity
 
@@ -19,9 +19,18 @@ The canonical organization id is provider-independent. `aiaiaiai-org` is the cur
 
 ## Protocol contract
 
-`manifest.yaml` is the machine-readable entry point. This instance is a compatibility canary for the immutable Mind Protocol `v0.9.0` release, using manifest schema v3 and organization context `0.3.0`.
+`manifest.yaml` is the machine-readable entry point. This instance is a compatibility canary for Mind Protocol `0.9.0`, using manifest schema v3 and organization context `0.3.0`.
 
-`protocol.lock.yaml` pins the exact release tag and commit, protocol descriptor, complete frozen schema set, conformance contract, compatibility policy, schema `$id` values, and Git blob fingerprints consumed by this repository. CI rejects drift from those published contract bytes. The protocol version and this organization's context version are independent.
+`mind-repository.yaml` declares this repository as a concrete Mind only. It is neither protocol authority nor template authority, and its intended relationship to `aiaiaiai-org/mind-protocol` is `independent_consumer` rather than GitHub fork inheritance.
+
+`protocol.lock.yaml` keeps two facts separate:
+
+- **current protocol authority:** `aiaiaiai-org/mind-protocol`;
+- **immutable `0.9.0` release provenance:** `0x0sky/mind@v0.9.0`, commit `457844c8ced0318d91d628617ff6f8ec6f428ab7`.
+
+The authority moved after `0.9.0`; that historical tag/release is not recreated or rewritten in the new authority repository. Starting with `1.0.0-rc.1`, formal protocol releases are published from `aiaiaiai-org/mind-protocol`.
+
+The lock also pins the protocol descriptor, complete frozen schema set, conformance contract, compatibility policy, schema `$id` values, and Git blob fingerprints consumed by this repository. CI rejects drift from those published contract bytes. The protocol version and this organization's context version are independent.
 
 The `0.3.0` context line records the v3 representation change, Identity resource envelope adoption, and cleanup of legacy module-owner identifiers. The canonical subject itself was already `aiaiaiai` before this bridge.
 
@@ -30,6 +39,7 @@ The `0.3.0` context line records the v3 representation change, Identity resource
 ```text
 OrganizationMind
 ├── manifest.yaml
+├── mind-repository.yaml
 ├── protocol.yaml
 ├── protocol.lock.yaml
 ├── conformance.yaml
@@ -70,16 +80,17 @@ This is not inferred from GitHub. The two canonical minds independently author t
 
 ## Protocol relationship
 
-- `0x0sky/mind` publishes reusable protocol semantics and the personal endpoint's canonical context;
+- `aiaiaiai-org/mind-protocol` defines universal Mind Protocol semantics and is the current release authority;
+- `0x0sky/mind` remains the immutable historical publication source for `v0.9.0` and separately owns `person:0x0sky` context;
 - `aiaiaiai-org/mind` owns organization-specific identity, relationship, governance, engineering, and portfolio context;
-- this canary consumes the immutable `v0.9.0` release and does not become protocol authority;
-- repository-specific implementation remains canonical in the owning repository and is referenced rather than copied.
+- this concrete Mind consumes an exact immutable protocol release and never becomes protocol authority;
+- protocol compatibility is represented by `protocol.lock.yaml`, not GitHub fork ancestry.
 
 The audited legacy bridge is recorded in [`docs/migrations/legacy-to-mind-0.9.md`](docs/migrations/legacy-to-mind-0.9.md).
 
 ## Validation
 
-Mind Contract CI validates published schema syntax, manifest v3 semantics, module graph, typed resources, universal Identity envelopes, relationship authority, the exact protocol release lock, and organization-specific canary invariants.
+Mind Contract CI validates published schema syntax, manifest v3 semantics, module graph, typed resources, universal Identity envelopes, relationship authority, the exact protocol release lock, repository-role metadata, and organization-specific canary invariants.
 
 ## Visual identity boundary
 
@@ -88,3 +99,5 @@ Mind Protocol 0.9 supports optional canonical visual identity references, but th
 ## Visibility
 
 This repository contains durable public organization context only. Never commit secrets, credentials, private personal data, private infrastructure state, or transient operational state.
+
+<!-- © 2026 aiaiaiai · aiaiaiai.org -->
