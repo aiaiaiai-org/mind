@@ -28,11 +28,11 @@ The geometry uses the v0.9 family grammar: faceted construction, negative-space 
 
 ## Provider export
 
-`assets/visual/aiaiaiai/exports/compact-emblem-1024.png` is a deterministic 1024×1024 PNG derived from the canonical SVG by `scripts/export_visual_assets.py`.
+`assets/visual/aiaiaiai/exports/compact-emblem-1024.png` is a 1024×1024 provider-ready raster derivative of the canonical SVG.
 
-The renderer is repository-owned and pinned by the exact `scripts/export_visual_assets.py` bytes plus `Pillow==12.3.0` in CI. The PNG is a provider-ready presentation derivative. It is suitable for square surfaces such as the GitHub Enterprise profile picture, but GitHub does not become the source of truth by receiving a copy.
+The renderer is repository-owned and pinned by the exact `scripts/export_visual_assets.py` bytes plus `Pillow==12.3.0` in CI. GitHub does not become the source of truth by receiving a copy.
 
-The export is regenerated in memory and checked byte-for-byte in CI. Any change to canonical SVG bytes or generated PNG bytes must update the corresponding SHA-256 descriptor deliberately.
+CI verifies two independent properties: `visual-assets.yaml` pins the exact committed PNG bytes with SHA-256, while `scripts/export_visual_assets.py --check` regenerates the canonical geometry and requires the decoded RGB pixels to match exactly. This keeps file integrity observable without treating encoder/container byte layout as visual semantics. Running the exporter may produce a newly encoded PNG; its catalog digest must then be updated deliberately.
 
 ## Identity boundary
 
