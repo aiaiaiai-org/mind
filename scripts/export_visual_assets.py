@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # © 2026 aiaiaiai · aiaiaiai.org
 # SPDX-License-Identifier: MIT
-"""Generate deterministic provider-ready raster exports from canonical SVG assets."""
+"""Generate and verify provider-ready raster exports from canonical SVG assets."""
 
 from __future__ import annotations
 
@@ -95,7 +95,7 @@ def parse_svg() -> tuple[list[tuple[float, float]], list[Line], float]:
     return points, lines, stroke_width
 
 
-def render_png_bytes() -> bytes:
+def render_image() -> Image.Image:
     points, lines, stroke_width = parse_svg()
     scale = OUTPUT_SIZE * SUPERSAMPLE / EXPECTED_VIEWBOX[2]
     render_size = OUTPUT_SIZE * SUPERSAMPLE
@@ -123,13 +123,15 @@ def render_png_bytes() -> bytes:
                 fill=CANVAS,
             )
 
-    image = image.resize(
+    return image.resize(
         (OUTPUT_SIZE, OUTPUT_SIZE),
         resample=Image.Resampling.LANCZOS,
     )
 
+
+def render_png_bytes() -> bytes:
     output = io.BytesIO()
-    image.save(
+    render_image().save(
         output,
         format="PNG",
         optimize=False,
@@ -139,18 +141,35 @@ def render_png_bytes() -> bytes:
 
 
 def check() -> int:
-    expected = PNG_PATH.read_bytes()
-    actual = render_png_bytes()
-    if actual == expected:
+    committed_bytes = PNG_PATH.read_bytes()
+    generated_bytes = render_png_bytes()
+
+    try:
+        with Image.open(io.BytesIO(committed_bytes)) as committed_png:
+            if committed_png.format != "PNG":
+                raise ValueError("committed provider export is not a PNG")
+            committed = committed_png.convert("RGB")
+            committed.load()
+    except (OSError, ValueError) as error:
+        print(f"invalid committed visual export: {error}", file=sys.stderr)
+        return 1
+
+    with Image.open(io.BytesIO(generated_bytes)) as generated_png:
+        generated = generated_png.convert("RGB")
+        generated.load()
+
+    if committed.size == generated.size and committed.tobytes() == generated.tobytes():
         print(
-            "deterministic visual export is current: "
-            f"{PNG_PATH.relative_to(ROOT)} sha256={sha256_bytes(actual)}"
+            "deterministic visual pixels are current: "
+            f"{PNG_PATH.relative_to(ROOT)} "
+            f"committed_sha256={sha256_bytes(committed_bytes)} "
+            f"generator_sha256={sha256_bytes(generated_bytes)}"
         )
         return 0
 
-    print("visual export drift detected:", file=sys.stderr)
-    print(f"- committed sha256: {sha256_bytes(expected)}", file=sys.stderr)
-    print(f"- generated sha256: {sha256_bytes(actual)}", file=sys.stderr)
+    print("visual export pixel drift detected:", file=sys.stderr)
+    print(f"- committed sha256: {sha256_bytes(committed_bytes)}", file=sys.stderr)
+    print(f"- generator sha256: {sha256_bytes(generated_bytes)}", file=sys.stderr)
     return 1
 
 
@@ -159,7 +178,7 @@ def main() -> int:
     parser.add_argument(
         "--check",
         action="store_true",
-        help="regenerate in memory and fail if committed bytes differ",
+        help="regenerate in memory and fail if committed visual pixels differ",
     )
     args = parser.parse_args()
 
