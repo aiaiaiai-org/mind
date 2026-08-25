@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # © 2026 aiaiaiai · aiaiaiai.org
 # SPDX-License-Identifier: MIT
-"""Validate the exact Mind Protocol release contracts consumed by this canary."""
+"""Validate the exact Mind Protocol release contracts consumed by this concrete Mind."""
 
 from __future__ import annotations
 
@@ -15,7 +15,8 @@ from validate_manifest import load_json_mapping, load_yaml_mapping
 ROOT = Path(__file__).resolve().parents[1]
 LOCK_PATH = ROOT / "protocol.lock.yaml"
 MANIFEST_PATH = ROOT / "manifest.yaml"
-EXPECTED_SOURCE = {
+EXPECTED_AUTHORITY_REPOSITORY = "aiaiaiai-org/mind-protocol"
+EXPECTED_RELEASE_SOURCE = {
     "repository": "0x0sky/mind",
     "tag": "v0.9.0",
     "commit": "457844c8ced0318d91d628617ff6f8ec6f428ab7",
@@ -46,8 +47,17 @@ def validate() -> list[str]:
     if manifest.get("protocol") != protocol:
         errors.append("manifest protocol must match protocol.lock.yaml exactly")
 
-    if lock.get("source") != EXPECTED_SOURCE:
-        errors.append("protocol source must pin the immutable 0x0sky/mind v0.9.0 tag and commit")
+    if lock.get("authority_repository") != EXPECTED_AUTHORITY_REPOSITORY:
+        errors.append("current Mind Protocol authority must be aiaiaiai-org/mind-protocol")
+    if lock.get("release_source") != EXPECTED_RELEASE_SOURCE:
+        errors.append(
+            "Mind Protocol 0.9.0 release provenance must remain 0x0sky/mind@v0.9.0 "
+            "at the immutable historical release commit"
+        )
+    if "source" in lock:
+        errors.append(
+            "ambiguous legacy source field is forbidden; use authority_repository and release_source"
+        )
 
     descriptor = lock.get("protocol_descriptor")
     if not isinstance(descriptor, dict):
@@ -99,8 +109,7 @@ def validate() -> list[str]:
             seen_ids.add(schema_id)
 
     compatibility = load_yaml_mapping(ROOT / "compatibility.yaml")
-    compatibility_protocol = compatibility.get("protocol")
-    if compatibility_protocol != protocol:
+    if compatibility.get("protocol") != protocol:
         errors.append("compatibility.yaml protocol binding must match protocol.lock.yaml")
 
     frozen = compatibility.get("freeze", {}).get("frozen_contracts")
@@ -125,8 +134,7 @@ def validate() -> list[str]:
     if conformance.get("protocol") != protocol:
         errors.append("conformance.yaml protocol binding must match protocol.lock.yaml")
 
-    context_versioning = lock.get("context_versioning")
-    if context_versioning != {
+    if lock.get("context_versioning") != {
         "independent_from_protocol": True,
         "protocol_tags_in_this_repository": "forbidden",
     }:
@@ -148,7 +156,10 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
 
-    print("complete Mind Protocol v0.9.0 machine contract set is pinned exactly")
+    print(
+        "concrete Mind pins the complete historical Mind Protocol v0.9.0 release "
+        "while naming aiaiaiai-org/mind-protocol as current authority"
+    )
     return 0
 
 

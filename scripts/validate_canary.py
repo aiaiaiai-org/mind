@@ -12,8 +12,10 @@ from validate_manifest import load_yaml_mapping
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "manifest.yaml"
+REPOSITORY_METADATA = ROOT / "mind-repository.yaml"
 MACHINE_CONTRACTS = (
     ROOT / "manifest.yaml",
+    ROOT / "mind-repository.yaml",
     ROOT / "protocol.lock.yaml",
     ROOT / "modules/identity/module.yaml",
     ROOT / "modules/identity/identity.yaml",
@@ -25,11 +27,21 @@ MACHINE_CONTRACTS = (
     ROOT / "modules/decisions/module.yaml",
 )
 EXPECTED_ENTITY = {"type": "organization", "id": "aiaiaiai"}
+EXPECTED_PROTOCOL_CONSUMPTION = {
+    "id": "mind",
+    "version": "0.9.0",
+    "authority_repository": "aiaiaiai-org/mind-protocol",
+    "release_repository": "0x0sky/mind",
+    "release_tag": "v0.9.0",
+    "release_commit": "457844c8ced0318d91d628617ff6f8ec6f428ab7",
+    "floating_master": "forbidden",
+}
 
 
 def validate() -> list[str]:
     errors: list[str] = []
     manifest = load_yaml_mapping(MANIFEST)
+    repository = load_yaml_mapping(REPOSITORY_METADATA)
     mind = manifest.get("mind", {})
 
     if manifest.get("schema_version") != 3:
@@ -48,6 +60,24 @@ def validate() -> list[str]:
         errors.append("mind.kind is forbidden by manifest v3")
     if "public_organizations" in manifest:
         errors.append("public_organizations is forbidden by manifest v3")
+
+    roles = repository.get("repository", {}).get("roles", {})
+    if roles.get("protocol_authority") != {"enabled": False}:
+        errors.append("aiaiaiai-org/mind must not declare protocol authority")
+    concrete = roles.get("concrete_mind", {})
+    if concrete.get("enabled") is not True:
+        errors.append("concrete mind role must be enabled")
+    if concrete.get("canonical_for_subject") != EXPECTED_ENTITY:
+        errors.append("repository role must be canonical only for organization:aiaiaiai")
+    if concrete.get("template_authority") is not False:
+        errors.append("organization Mind must not be a template authority")
+
+    if repository.get("protocol_consumption") != EXPECTED_PROTOCOL_CONSUMPTION:
+        errors.append(
+            "repository metadata must separate current protocol authority from immutable v0.9.0 release provenance"
+        )
+    if repository.get("fork_policy", {}).get("relationship_to_protocol_repository") != "independent_consumer":
+        errors.append("protocol relationship must be independent_consumer, not GitHub fork inheritance")
 
     catalog = manifest.get("modules", {}).get("catalog", {})
     if isinstance(catalog, dict):
@@ -89,7 +119,7 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
 
-    print("aiaiaiai organization canary invariants are valid")
+    print("aiaiaiai organization Mind is a standalone concrete 0.9 consumer with truthful provenance")
     return 0
 
 
