@@ -1,0 +1,20 @@
+# © 2026 aiaiaiai · aiaiaiai.org
+# SPDX-License-Identifier: MIT
+schema_version: 1
+
+assets:
+  - ref: aiaiaiai-compact-emblem
+    media_type: image/svg+xml
+    resource_path: assets/visual/aiaiaiai/compact-emblem.svg
+    integrity:
+      algorithm: sha256
+      digest: cc6367c8d8eaeff1270320bfee943d03f7c496e0c58776727e0e3e4d31228ec0
+  - ref: aiaiaiai-compact-emblem-png-1024
+    media_type: image/png
+    resource_path: assets/visual/aiaiaiai/exports/compact-emblem-1024.png
+    integrity:
+      algorithm: sha256
+      digest: 83b9a39023f85e32db91c23e951e593da82ba41e06b74f3911d83abeb448fd1c
+
+validation:
+  schema: schema/visual-assets.schema.json

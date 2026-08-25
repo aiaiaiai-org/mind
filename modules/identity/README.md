@@ -13,7 +13,11 @@ The machine-readable source is [`identity.yaml`](identity.yaml). Its type and id
 
 The canonical identity is provider-independent. `aiaiaiai-org` identifies the current GitHub namespace; it is not the organization id used by Mind Protocol.
 
-Visual identity is part of this module when canonical repository-local assets are declared. Provider avatars remain derived presentation data until explicitly adopted as canonical assets.
+Visual identity belongs to this module when canonical repository-local assets are explicitly versioned here. The current visual asset publication is [`visual-assets.yaml`](visual-assets.yaml), with production files under [`../../assets/visual/aiaiaiai/`](../../assets/visual/aiaiaiai/). Provider avatars remain presentation projections; they do not become identity authority.
+
+The `1.0.0-rc.1` consumer intentionally does not bind `identity.visual_identity.primary_mark` yet. Asset publication can be prepared and validated independently; canonical Identity binding remains part of the post-stable-`1.0.0` rollout.
+
+See [`../../docs/visual-identity.md`](../../docs/visual-identity.md) for provenance, production rules, and provider boundaries.
 
 ## Scope
 
